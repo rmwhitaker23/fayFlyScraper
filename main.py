@@ -9,7 +9,7 @@ soup = BeautifulSoup(page.content, 'html.parser')
 # Open text file for raw data output
 output = open('fayettevilleEvents.txt', 'w')
 # Write table headers to top of output file to be used when importing data
-output.write("Title| Time| Venue| Category\n")
+output.write("Title-_- Time-_- Venue-_- Category\n")
 
 # Find number of instances of times on list
 numTimes = len(soup.find_all(class_="event_time"))
@@ -21,16 +21,17 @@ for y in range(numTimes):
   venue = soup.find_all(class_="event_venue")[y].get_text()
   category = soup.find_all(class_="event_category")[y].get_text()
   # Print event info with new line to separate them
-  ''' print(title)
+  # Don't need this, but nice to see when developing
+  print(title)
   print(time)
   print(venue)
   print(category)
-  print("\n") '''
+  print("\n")
   # Output to text file using .encode('utf-8') because otherwise ascii error will occur
-  output.write(title.encode('utf-8') + "| ")
-  output.write(time.encode('utf-8') + "| ")
-  output.write(venue.encode('utf-8') + "| ")
-  output.write(category.encode('utf-8') + "\n")
+  output.write(title + "-_- ")
+  output.write(time + "-_- ")
+  output.write(venue + "-_- ")
+  output.write(category + "\n")
 
 ''' #For testing on first event in calendar
 x=1
@@ -50,5 +51,7 @@ print("\n") '''
 numChildren = len(soup.find_all('h2'))
 print numChildren '''
 
-
 # could do count of h2 children (events) and do separate loop to loop for that many times, then update the day
+
+# Close the output file
+output.close()
