@@ -21,9 +21,9 @@ soup = BeautifulSoup(page.content, 'html.parser')
 # Write table headers to top of output file to be used when importing data
 # Use system check to prevent enable compatibility w/ Windows and Linux
 if sys.platform.startswith('linux'):
-  output.write("Title; Day of Week; Time; Venue; Category\n")
+  output.write("Title; Day of Week; Time; Venue; Category; Link\n")
 else:
-  output.write("Title-_- Day -_- Time-_- Venue-_- Category\n")
+  output.write("Title-_- Day -_- Time-_- Venue-_- Category; Link\n")
 
 # Find the number of tables on the page (for looping)
 numTables = len(soup.find_all('table'))
@@ -40,11 +40,15 @@ for z in range(numTables):
     time = dayTable.find_all(class_="event_time")[y].get_text()
     venue = dayTable.find_all(class_="event_venue")[y].get_text()
     category = dayTable.find_all(class_="event_category")[y].get_text()
+    # Save the link for each event
+    link = dayTable.find_all('a', href=True)[y]
     print(title)
     print(dayOfWeek)
     print(time)
     print(venue)
     print(category)
+    # Print link for each event
+    print(link['href'])
     print("\n")
   	# Use platform check to prevent enable compatibility w/ Windows and Linux
     if sys.platform.startswith('linux'):
@@ -53,7 +57,8 @@ for z in range(numTables):
       output.write(dayOfWeek.encode('utf-8') + "; ")
       output.write(time.encode('utf-8') + "; ")
       output.write(venue.encode('utf-8') + "; ")
-      output.write(category.encode('utf-8') + "\n")
+      output.write(category.encode('utf-8') + "; ")
+      output.write(link['href'].encode('utf-8') + "\n")
     else:
       # Output without .encode, and change | to -_- or similar on Windows
       # see if ; works on Windows... could get rid of platform check in that case
@@ -61,7 +66,8 @@ for z in range(numTables):
       output.write(dayOfWeek + "-_- ")
       output.write(time + "-_- ")
       output.write(venue + "-_- ")
-      output.write(category + "\n")
+      output.write(category + "-_- ")
+      output.write(link['href'] + "\n")
 
 # Close the output file
 output.close()
