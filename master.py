@@ -21,9 +21,9 @@ soup = BeautifulSoup(page.content, 'html.parser')
 # Write table headers to top of output file to be used when importing data
 # Use system check to prevent enable compatibility w/ Windows and Linux
 if sys.platform.startswith('linux'):
-  output.write("Title; Day of Week; Time; Venue; Category; Link\n")
+  output.write("Title; Day of Week; Time; Venue; Category; Link; Description\n")
 else:
-  output.write("Title-_- Day -_- Time-_- Venue-_- Category; Link\n")
+  output.write("Title-_- Day -_- Time-_- Venue-_- Category; Link; Description\n")
 
 # Find the number of tables on the page (for looping)
 numTables = len(soup.find_all('table'))
@@ -42,6 +42,13 @@ for z in range(numTables):
     category = dayTable.find_all(class_="event_category")[y].get_text()
     # Save the link for each event
     link = dayTable.find_all('a', href=True)[y]
+    eventPage = requests.get(link['href'])
+    # Fetch and save description of each event, found in blockquotes on the event's own site
+    eventSoup = BeautifulSoup(eventPage.content, 'html.parser')
+    numBlockquotes = len(eventSoup.find_all('blockquote'))
+    if numBlockquotes > 0:
+      # numBlockquotes-1 because the first blockquote on the page is blockquote 0, not 1
+      description = eventSoup.find_all('blockquote')[numBlockquotes-1].get_text()
     print(title)
     print(dayOfWeek)
     print(time)
@@ -49,6 +56,9 @@ for z in range(numTables):
     print(category)
     # Print link for each event
     print(link['href'])
+    # Print blockquote if it exists
+    if numBlockquotes > 0:
+      print(description)
     print("\n")
   	# Use platform check to prevent enable compatibility w/ Windows and Linux
     if sys.platform.startswith('linux'):
@@ -58,7 +68,12 @@ for z in range(numTables):
       output.write(time.encode('utf-8') + "; ")
       output.write(venue.encode('utf-8') + "; ")
       output.write(category.encode('utf-8') + "; ")
-      output.write(link['href'].encode('utf-8') + "\n")
+      output.write(link['href'].encode('utf-8') + "; ")
+      # Output description if it exists, otherwise just output newline character
+      if numBlockquotes > 0:
+        output.write(description.encode('utf-8') + "\n")
+      else:
+        output.write("\n")
     else:
       # Output without .encode, and change | to -_- or similar on Windows
       # see if ; works on Windows... could get rid of platform check in that case
@@ -67,7 +82,12 @@ for z in range(numTables):
       output.write(time + "-_- ")
       output.write(venue + "-_- ")
       output.write(category + "-_- ")
-      output.write(link['href'] + "\n")
+      output.write(link['href'] + "-_- ")
+      # Output description if it exists, otherwise just output newline character
+      if numBlockquotes > 0:
+        output.write(description + "\n")
+      else:
+        output.write("\n")
 
 # Close the output file
 output.close()
