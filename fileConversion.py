@@ -1,15 +1,25 @@
-import pandas as pd
+# install pandas for spreadsheet operations
+import pandas
 # install pyexcel and pyexcel-xlsx (for .xlsx files)
 import pyexcel
+# install xlsxwriter for writing to xlsxwriter
+import xlsxwriter
+# install sys for platform check
+import sys
 
 # Create a Pandas dataframe from the data.
-data = pd.read_csv('fayettevilleEvents.txt', sep='-_- ')
+if sys.platform.startswith('linux'):
+  data = pandas.read_csv('fayettevilleEvents.txt', sep='; ')
+else:
+  data = pandas.read_csv('fayettevilleEvents.txt', sep='-_- ')
 
 # Create a Pandas Excel writer using XlsxWriter as the engine.
-writer = pd.ExcelWriter('fayettevilleEvents.xlsx', engine='xlsxwriter')
+writer = pandas.ExcelWriter('fayettevilleEvents.xlsx', engine='xlsxwriter')
 
 # Convert the dataframe to an XlsxWriter Excel object.
-data.to_excel(writer, sheet_name='Sheet1')
+data.to_excel(writer, sheet_name='Sheet1', encoding='utf-8')
+
+print("I made it!")
 
 # Close the Pandas Excel writer and output the Excel file.
 writer.save()
