@@ -11,9 +11,11 @@ import sys
 def mkTable():
     # Create a Pandas dataframe from the data.
     if sys.platform.startswith('linux'):
-        data = pandas.read_csv('fayettevilleEvents.txt', sep='; ')
+        data = pandas.read_csv('fayettevilleEvents.txt', sep="; ")
+        return data
     else:
-        data = pandas.read_csv('fayettevilleEvents.txt', sep='-_- ')
+        data = pandas.read_csv('fayettevilleEvents.txt', sep="-_- ")
+        return data
 
 
 def mkWriter():
@@ -22,7 +24,7 @@ def mkWriter():
     return writer
 
 
-def convertAndSave(writer):
+def convertAndSave(data, writer):
     # Convert the dataframe to an XlsxWriter Excel object.
     data.to_excel(writer, sheet_name='Sheet1', encoding='utf-8')
     # Close the Pandas Excel writer and output the Excel file.

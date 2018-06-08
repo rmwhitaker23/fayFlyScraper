@@ -63,17 +63,17 @@ def findAndSave(numTables, soup, output):
             if numBlockquotes > 0:
                 # numBlockquotes-1 because the first blockquote on the page is blockquote 0, not 1
                 description = eventSoup.find_all('blockquote')[numBlockquotes - 1].get_text()
-            print(title)
-            print(dayOfWeek)
-            print(time)
-            print(venue)
-            print(category)
-            # Print link for each event
-            print(link['href'])
-            # Print blockquote if it exists
-            if numBlockquotes > 0:
-                print(description)
-            print("\n")
+            # print(title)
+            # print(dayOfWeek)
+            # print(time)
+            # print(venue)
+            # print(category)
+            # # Print link for each event
+            # print(link['href'])
+            # # Print blockquote if it exists
+            # if numBlockquotes > 0:
+            #     print(description)
+            # print("\n")
             # Use platform check to prevent enable compatibility w/ Windows and Linux
             if sys.platform.startswith('linux'):
                 # Output to text file using .encode('utf-8') on Linux (repl.it)

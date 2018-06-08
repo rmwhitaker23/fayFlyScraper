@@ -1,6 +1,6 @@
 import fetch
 
-# import convert
+import convert
 
 ############################################################
 ####          Fetch data and save in .txt file          ####
@@ -32,14 +32,14 @@ fetch.closeOutput(output)
 ############################################################
 # does not work on Python 2.7.10/Debian 8.6
 
-''' # Create a Pandas dataframe from the data.
-convert.mkTable()
+# Create a Pandas dataframe from the data.
+data = convert.mkTable()
 
 # Create a Pandas Excel writer using xlsxwriter as the engine.
 writer = convert.mkWriter()
 
 # Convert dataframe to an Excel object and save
-convert.convertAndSave(writer)
+convert.convertAndSave(data, writer)
 
 # Convert .xlsx to a .html webpage with the table
-convert.mkHTML() '''
+convert.mkHTML()
