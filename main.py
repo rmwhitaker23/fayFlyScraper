@@ -1,5 +1,5 @@
 import fetch
-import convert
+#import convert
 
 ############################################################
 ####          Fetch data and save in .txt file          ####
@@ -25,7 +25,6 @@ fetch.findAndSave(numTables, soup, output)
 
 # Close output file
 fetch.closeOutput(output)
-
 
 ############################################################
 ####                     Conversion                     ####
