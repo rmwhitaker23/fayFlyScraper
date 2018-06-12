@@ -70,7 +70,7 @@ def fayFly(numTables, soup, output):
       if numBlockquotes > 0:
         # numBlockquotes-1 because the first blockquote on the page is blockquote 0, not 1
         description = eventSoup.find_all('blockquote')[numBlockquotes-1].get_text()
-      print(title)
+      ''' print(title)
       print(dayOfWeek)
       print(time)
       print(venue)
@@ -80,7 +80,7 @@ def fayFly(numTables, soup, output):
       # Print blockquote if it exists
       if numBlockquotes > 0:
         print(description)
-      print("\n")
+      print("\n") '''
       # Use platform check to prevent enable compatibility w/ Windows and Linux
       if sys.platform.startswith('linux'):
         # Output to text file using .encode('utf-8') on Linux (repl.it)
@@ -110,7 +110,7 @@ def fayFly(numTables, soup, output):
         else:
           output.write("\n")
 
-def DTBville(numTables, soup, output):
+''' def DTBville(numTables, soup, output):
   numTimes = len(soup.find_all(class_="timely-title-text"))
   for y in range(numTimes-4):
     print(y+1)
@@ -136,7 +136,7 @@ def DTBville(numTables, soup, output):
     output.write("")
     output.write(time.encode('utf-8') + "; ")
     output.write(venue.encode('utf-8') + "; ")
-    output.write("" + "\n")
+    output.write("" + "\n") '''
 
 def closeOutput(output):
   # Close the output file
